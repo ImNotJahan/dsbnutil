@@ -1,0 +1,14 @@
+modLoader="javafml"
+
+loaderVersion="[28,)"
+license="MIT LICENSE"
+
+[[mods]]
+modId="dsbnutil"
+version="1.0.0"
+displayName="Bloody Nights Utilities"
+authors="ImNotJahan"
+credits=""
+description='''
+A mod for the Demon Slayer || Bloody Nights modpack.
+'''
