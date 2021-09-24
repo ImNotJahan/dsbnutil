@@ -19,7 +19,7 @@ public class SwordScreen extends Screen
     public SwordScreen()
     {
         super(new StringTextComponent("sword screen"));
-        cap = Minecraft.getInstance().player.getCapability(NameProvider.STATUS_CAP).orElseThrow(ArithmeticException::new);
+        cap = minecraft.player.getCapability(NameProvider.STATUS_CAP).orElseThrow(ArithmeticException::new);
     }
 
     List<String> swords = new ArrayList<String>()
