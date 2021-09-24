@@ -4,9 +4,11 @@ import imnotjahan.mod.dsbnutil.Main;
 import imnotjahan.mod.dsbnutil.capabilities.name.NameData;
 import imnotjahan.mod.dsbnutil.capabilities.name.NameProvider;
 import imnotjahan.mod.dsbnutil.capabilities.world.IWorldData;
+import imnotjahan.mod.dsbnutil.capabilities.world.WorldData;
 import imnotjahan.mod.dsbnutil.capabilities.world.WorldProvider;
 import imnotjahan.mod.dsbnutil.networking.PacketHandler;
 import imnotjahan.mod.dsbnutil.networking.message.NameMessage;
+import imnotjahan.mod.dsbnutil.networking.message.WorldMessage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -16,9 +18,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.PacketDistributor;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Mod.EventBusSubscriber(modid= Main.MODID)
 public class Events
@@ -62,5 +68,24 @@ public class Events
         ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
         PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new NameMessage(
                 player.getCapability(NameProvider.STATUS_CAP, NameData.capSide).orElseThrow(ArithmeticException::new)));
+
+        IWorldData data = event.getPlayer().getCommandSenderWorld().getCapability(WorldProvider.STATUS_CAP)
+                .orElseThrow(ArithmeticException::new);
+        PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new WorldMessage(data));
+    }
+
+    @SubscribeEvent
+    public static void playerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event)
+    {
+        IWorldData data = event.getPlayer().getCommandSenderWorld().getCapability(WorldProvider.STATUS_CAP)
+                .orElseThrow(ArithmeticException::new);
+        if(data.isPermadeath())
+        {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
+            Date date = new Date(System.currentTimeMillis());
+
+            data.addDeathData(event.getEntity().getDisplayName().getString() + " left during a pd event at " +
+                    formatter.format(date));
+        }
     }
 }

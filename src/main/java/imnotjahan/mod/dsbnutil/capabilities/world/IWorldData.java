@@ -1,5 +1,7 @@
 package imnotjahan.mod.dsbnutil.capabilities.world;
 
+import net.minecraft.util.math.BlockPos;
+
 import java.util.List;
 
 public interface IWorldData
@@ -9,10 +11,14 @@ public interface IWorldData
     void addDeathData(String data);
     void setDeathData(List<String> data);
 
+    void clearNames();
+    void setNames(List<String> names);
     void addName(String name);
     List<String> getNames();
 
-    // What the fuck does this dooooooooo
+    /** PDL = Permadeath Location */
+    void setPDL(BlockPos pos);
+    BlockPos getPDL();
 
     boolean isPermadeath();
     void setPermadeath(boolean pd); // pd stands for permadeath

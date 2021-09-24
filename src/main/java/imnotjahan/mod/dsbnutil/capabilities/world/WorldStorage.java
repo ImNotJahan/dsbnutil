@@ -3,6 +3,7 @@ package imnotjahan.mod.dsbnutil.capabilities.world;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 
 import java.util.ArrayList;
@@ -37,6 +38,10 @@ public class WorldStorage implements Capability.IStorage<IWorldData>
 
             status.putBoolean("pd", instance.isPermadeath()); // PD = permadeath
 
+            status.putInt("pdlX", instance.getPDL().getX()); // PDL = permadeath location
+            status.putInt("pdlY", instance.getPDL().getY()); // PDL = permadeath location
+            status.putInt("pdlZ", instance.getPDL().getZ()); // PDL = permadeath location
+
             return status;
         }
 
@@ -59,12 +64,16 @@ public class WorldStorage implements Capability.IStorage<IWorldData>
                     deathData.add(tag.getString("death" + k));
                 }
 
+                instance.clearNames();
                 for(int k = 0; k < tag.getInt("names"); k++)
                 {
                     instance.addName(tag.getString("name" + k));
                 }
 
                 instance.setPermadeath(tag.getBoolean("pd"));
+
+                instance.setPDL(new BlockPos(
+                        tag.getInt("pdlX"), tag.getInt("pdlY"), tag.getInt("pdlZ")));
 
                 instance.setDeathData(deathData);
             }

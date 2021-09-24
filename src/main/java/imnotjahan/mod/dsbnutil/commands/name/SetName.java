@@ -5,9 +5,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import imnotjahan.mod.dsbnutil.capabilities.name.INameData;
 import imnotjahan.mod.dsbnutil.capabilities.name.NameProvider;
-import imnotjahan.mod.dsbnutil.capabilities.world.IWorldData;
 import imnotjahan.mod.dsbnutil.capabilities.world.WorldData;
-import imnotjahan.mod.dsbnutil.capabilities.world.WorldProvider;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.StringTextComponent;
@@ -27,7 +25,7 @@ public class SetName
         INameData data = source.getEntity().getCapability(NameProvider.STATUS_CAP, WorldData.capSide)
                 .orElseThrow(ArithmeticException::new);
 
-        data.setName(name);
+        data.setName(data.getName().split(" ")[0] + " " + name);
 
         source.sendSuccess(new StringTextComponent("Set your name to " + name), false);
 

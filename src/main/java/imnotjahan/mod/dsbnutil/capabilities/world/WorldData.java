@@ -1,5 +1,6 @@
 package imnotjahan.mod.dsbnutil.capabilities.world;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ public class WorldData implements IWorldData
 
     private List<String> deathData = new ArrayList<>();
     private boolean isPermadeath = false;
+
+    BlockPos pdl = new BlockPos(0, 100, 0);
 
     List<String> names = new ArrayList<String>()
     {{
@@ -30,7 +33,6 @@ public class WorldData implements IWorldData
         add("Agatsuma");
         add("Hashibira");
         add("Shinazugawa");
-        add("Kibutsuji");
         add("Wallenstein");
         add("Haganezuka");
         add("Kanamori");
@@ -145,6 +147,33 @@ public class WorldData implements IWorldData
     public List<String> getNames()
     {
         return names;
+    }
+
+    @Override
+    public void clearNames()
+    {
+        names = new ArrayList<>();
+    }
+
+    @Override
+    public void setNames(List<String> names)
+    {
+        this.names = names;
+    }
+
+    /**
+     * PDL = Permadeath Location
+     */
+    @Override
+    public void setPDL(BlockPos pos)
+    {
+        pdl = pos;
+    }
+
+    @Override
+    public BlockPos getPDL()
+    {
+        return pdl;
     }
 
     // Permadeath

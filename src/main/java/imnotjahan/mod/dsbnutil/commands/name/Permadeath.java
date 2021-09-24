@@ -8,7 +8,10 @@ import imnotjahan.mod.dsbnutil.capabilities.world.WorldData;
 import imnotjahan.mod.dsbnutil.capabilities.world.WorldProvider;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.GameType;
 
 public class Permadeath
 {
@@ -28,6 +31,20 @@ public class Permadeath
         data.setPermadeath(!data.isPermadeath());
 
         source.sendSuccess(new StringTextComponent("Permadeath: " + data.isPermadeath()), false);
+
+        if(!data.isPermadeath())
+        {
+            for(PlayerEntity player : source.getEntity().getCommandSenderWorld().players())
+            {
+                if(player.isSpectator())
+                {
+                    player.setGameMode(GameType.SURVIVAL);
+
+                    BlockPos pdl = data.getPDL();
+                    player.teleportTo(pdl.getX(), pdl.getY(), pdl.getZ());
+                }
+            }
+        }
 
         return 0;
     }

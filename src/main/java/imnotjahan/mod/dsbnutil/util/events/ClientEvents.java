@@ -12,9 +12,12 @@ public class ClientEvents
 {
     public static final KeyBinding NAME = new KeyBinding("key.stuff", GLFW.GLFW_KEY_L,
             "key.categories.dsbn");
+    public static final KeyBinding SWORDS = new KeyBinding("key.swords", GLFW.GLFW_KEY_P,
+            "key.categories.dsbn");
 
     static
     {
         ClientRegistry.registerKeyBinding(NAME);
+        ClientRegistry.registerKeyBinding(SWORDS);
     }
 }

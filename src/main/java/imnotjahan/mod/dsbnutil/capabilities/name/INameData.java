@@ -1,5 +1,7 @@
 package imnotjahan.mod.dsbnutil.capabilities.name;
 
+import java.util.List;
+
 public interface INameData
 {
     String getName();
@@ -7,4 +9,8 @@ public interface INameData
 
     boolean setRandomName();
     boolean setName(String name);
+
+    List<String> getUnlocked();
+    void setUnlocked(List<String> swords);
+    void unlock(String sword);
 }

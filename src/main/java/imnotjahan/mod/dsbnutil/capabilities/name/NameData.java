@@ -8,10 +8,6 @@ public class NameData implements INameData
 {
     public static final Direction capSide = Direction.UP;
 
-    private List<String> names = new ArrayList<String>()
-    {{
-        add("tanjiro");
-    }};
     private String name = "Filler Name";
 
 
@@ -39,5 +35,25 @@ public class NameData implements INameData
     {
         this.name = name;
         return false;
+    }
+
+    private List<String> unlockedSwords = new ArrayList<>();
+
+    @Override
+    public List<String> getUnlocked()
+    {
+        return unlockedSwords;
+    }
+
+    @Override
+    public void setUnlocked(List<String> swords)
+    {
+        unlockedSwords = swords;
+    }
+
+    @Override
+    public void unlock(String sword)
+    {
+        unlockedSwords.add(sword);
     }
 }
