@@ -82,7 +82,7 @@ public class SwordScreen extends Screen
 
         renderDirtBackground(0);
 
-        int buttonsHorizontally = (int) Math.floor(width / 20);
+        int buttonsHorizontally = (int) Math.floor(width / 150);
 
         for(int k = 0; k < swords.size(); k++)
         {
