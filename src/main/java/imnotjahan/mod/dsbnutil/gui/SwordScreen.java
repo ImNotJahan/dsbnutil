@@ -3,6 +3,7 @@ package imnotjahan.mod.dsbnutil.gui;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import imnotjahan.mod.dsbnutil.capabilities.name.INameData;
 import imnotjahan.mod.dsbnutil.capabilities.name.NameProvider;
+import imnotjahan.mod.dsbnutil.util.events.ClientEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -15,14 +16,24 @@ import java.util.List;
 public class SwordScreen extends Screen
 {
     INameData cap;
+    Minecraft mc;
 
     public SwordScreen()
     {
         super(new StringTextComponent("sword screen"));
-        cap = minecraft.player.getCapability(NameProvider.STATUS_CAP).orElseThrow(ArithmeticException::new);
+
+        if(minecraft == null)
+        {
+            mc = ClientEvents.GetMinecraft();
+        } else
+        {
+            mc = minecraft;
+        }
+
+        cap = mc.player.getCapability(NameProvider.STATUS_CAP).orElseThrow(ArithmeticException::new);
     }
 
-    List<String> swords = new ArrayList<String>()
+    final List<String> swords = new ArrayList<String>()
     {{
         add("kimetsunoyaiba:nichirinsword_kanawo");
         add("kimetsunoyaiba:nichirinsword_mist");
@@ -32,15 +43,10 @@ public class SwordScreen extends Screen
         add("kimetsunoyaiba:nichirinsword_iguro");
         add("kimetsunoyaiba:nichirinsword_genya");
         add("kimetsunoyaiba:nichirinsword_water");
-        add("kimetsunoyaiba:nichirinsword_yoriichi");
         add("kimetsunoyaiba:nichirinsword_tokito");
         add("kimetsunoyaiba:nichirinsword_inosuke");
         add("kimetsunoyaiba:nichirinsword_senior");
-        add("kimetsunoyaiba:nichirinsword_tanjiro");
         add("kimetsunoyaiba:nichirinsword_shinazugawa");
-        add("kimetsunoyaiba:nichirinsword_tanjiro_2");
-        add("kimetsunoyaiba:nichirinsword");
-        add("kimetsunoyaiba:nichirinswordmoon");
         add("kimetsunoyaiba:nichirinsword_senior_2");
         add("kimetsunoyaiba:nichirinsword_zenitsu");
         add("kimetsunoyaiba:nichirinsword_kanroji");
@@ -52,19 +58,41 @@ public class SwordScreen extends Screen
         add("kimetsunoyaiba:nichirinsword_uzui");
         add("kimetsunoyaiba:nichirinsword_rengoku");
         add("kimetsunoyaiba:nichirinsword_tomioka");
-        add("kimetsunoyaiba:nichirinsword_senior_super");
         add("kimetsunoyaiba:nichirinsword_himejima_2");
         add("kimetsunoyaiba:nichirinsword_himejima_1");
-        add("kimetsunoyaiba:nichirinsword_golden");
         add("kimetsunoyaiba:nichirinsword_kocho");
         add("kimetsunoyaiba:nichirinsword_bamboo_2");
+    }};
+
+    final List<String> arts = new ArrayList<String>()
+    {{
+        add("kimetsunoyaiba:bhlooddemonart_nezuko");
+        add("kimetsunoyaiba:bhlooddemonart_yahaba");
+        add("kimetsunoyaiba:kemari");
+        add("kimetsunoyaiba:drum");
+        add("kimetsunoyaiba:bhlooddemonart_kamanue");
+        add("kimetsunoyaiba:bhlooddemonart_rui");
+        add("kimetsunoyaiba:bhlooddemonart_rui_sister");
+        add("kimetsunoyaiba:rifle");
+        add("kimetsunoyaiba:minigun");
+        add("kimetsunoyaiba:sword_hairo");
+        add("kimetsunoyaiba:bhlooddemonart_enmu");
+        add("kimetsunoyaiba:chigama");
+        add("kimetsunoyaiba:bhlooddemonart_gyokko");
+        add("kimetsunoyaiba:khakkhara");
+        add("kimetsunoyaiba:spear");
+        add("kimetsunoyaiba:urogi_hand");
+        add("kimetsunoyaiba:tengu_handfan");
+        add("kimetsunoyaiba:bhlooddemonart_zohakuten");
+        add("kimetsunoyaiba:bhlooddemonart_nakime");
+        add("kimetsunoyaiba:bhlooddemonart_akaza");
+        add("kimetsunoyaiba:handfan");
     }};
 
     double scrollOffsets = 0;
     int integerScrollOffsets = 0;
     float speed = 1000;
-
-    int screen = 0;
+    int menu = 0;
 
     @Override
     public boolean mouseDragged(double p_231045_1_, double p_231045_3_, int delta, double p_231045_6_, double p_231045_8_)
@@ -78,30 +106,57 @@ public class SwordScreen extends Screen
     @Override
     public void render(MatrixStack stack, int p_230430_2_, int p_230430_3_, float p_230430_4_)
     {
+        if(cap == null) return;
+        if(mc.player == null) return;
+
         buttons.clear();
 
         renderDirtBackground(0);
 
         int buttonsHorizontally = (int) Math.floor(width / 150);
 
-        for(int k = 0; k < swords.size(); k++)
+        final List<String> menuButtons;
+
+        switch(menu)
         {
-            String prettyName = WordUtils.capitalize(swords.get(k).split(":")[1].replace('_', ' '));
+            case 0:
+                menuButtons = swords;
+                break;
 
-            if(cap.getUnlocked().contains(swords.get(k))) return;
+            case 1:
+                menuButtons = arts;
+                break;
 
-            Button button = new Button((buttons.size() % buttonsHorizontally) * 150,
-                    ((int) Math.floor(buttons.size() / buttonsHorizontally) * 20),
-                    150, 20,
-                    new StringTextComponent(prettyName), a ->
-            {
-                minecraft.player.experienceLevel -= 30;
-                cap.unlock(swords.get(buttons.size()));
-            });
-            button.active = minecraft.player.experienceLevel >= 30;
-
-            addButton(button);
+            default:
+                menu = 0;
+                menuButtons = swords;
         }
+
+        for(int k = 0; k < menuButtons.size(); k++)
+        {
+            String menuButton = menuButtons.get(k);
+            String prettyName = WordUtils.capitalize(menuButton.split(":")[1].replace('_', ' '));
+
+            if (!cap.getUnlocked().contains(menuButton))
+            {
+                Button button = new Button((buttons.size() % buttonsHorizontally) * 150,
+                        ((int) Math.floor(buttons.size() / buttonsHorizontally) * 20),
+                        150, 20,
+                        new StringTextComponent(prettyName), a ->
+                {
+                    mc.player.experienceLevel -= 30;
+                    cap.unlock(menuButton);
+                });
+                button.active = mc.player.experienceLevel >= 30;
+
+                addButton(button);
+            }
+        }
+
+        Button button = new Button(0, height - 20,
+                75, 20,
+                new StringTextComponent("SWITCH"), a -> menu++);
+        addButton(button);
 
         super.render(stack, p_230430_2_, p_230430_3_, p_230430_4_);
     }

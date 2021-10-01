@@ -12,7 +12,7 @@ public class WorldData implements IWorldData
     private List<String> deathData = new ArrayList<>();
     private boolean isPermadeath = false;
 
-    BlockPos pdl = new BlockPos(0, 100, 0);
+    BlockPos pdl = new BlockPos(0, 0, 0);
 
     List<String> names = new ArrayList<String>()
     {{

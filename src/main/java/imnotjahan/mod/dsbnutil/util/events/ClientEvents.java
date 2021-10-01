@@ -1,6 +1,7 @@
 package imnotjahan.mod.dsbnutil.util.events;
 
 import imnotjahan.mod.dsbnutil.Main;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -19,5 +20,10 @@ public class ClientEvents
     {
         ClientRegistry.registerKeyBinding(NAME);
         ClientRegistry.registerKeyBinding(SWORDS);
+    }
+
+    public static Minecraft GetMinecraft()
+    {
+        return Minecraft.getInstance();
     }
 }
