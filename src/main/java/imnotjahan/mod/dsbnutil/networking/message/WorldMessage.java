@@ -43,8 +43,6 @@ public class WorldMessage
         }
 
         buffer.writeBoolean(data.isPermadeath());
-
-        buffer.writeBlockPos(data.getPDL());
     }
 
     public static WorldMessage decode(PacketBuffer buffer)
@@ -66,8 +64,6 @@ public class WorldMessage
         }
 
         data.setPermadeath(buffer.readBoolean());
-
-        data.setPDL(buffer.readBlockPos());
 
         return new WorldMessage(data);
     }

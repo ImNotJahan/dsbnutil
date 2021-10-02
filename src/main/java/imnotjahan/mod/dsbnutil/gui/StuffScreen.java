@@ -4,6 +4,10 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import imnotjahan.mod.dsbnutil.capabilities.name.INameData;
 import imnotjahan.mod.dsbnutil.capabilities.name.NameProvider;
 import imnotjahan.mod.dsbnutil.capabilities.world.WorldProvider;
+import imnotjahan.mod.dsbnutil.networking.PacketHandler;
+import imnotjahan.mod.dsbnutil.networking.message.ClientNameMessage;
+import imnotjahan.mod.dsbnutil.networking.message.NameMessage;
+import imnotjahan.mod.dsbnutil.util.events.ClientEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -17,6 +21,7 @@ public class StuffScreen extends Screen
     public StuffScreen()
     {
         super(new StringTextComponent("stuff"));
+        nameData = ClientEvents.GetMinecraft().player.getCapability(NameProvider.STATUS_CAP).orElseThrow(ArithmeticException::new);
     }
 
     INameData nameData;
@@ -29,8 +34,6 @@ public class StuffScreen extends Screen
 
         firstNameInput = new TextFieldWidget(font, width / 2 - 50, height - 56, 100, 20,
                 new StringTextComponent("First Name"));
-
-        nameData = p_231158_1_.player.getCapability(NameProvider.STATUS_CAP).orElseThrow(ArithmeticException::new);
 
         firstNameInput.setMaxLength(32);
 
@@ -63,6 +66,7 @@ public class StuffScreen extends Screen
         String lastName = splitName.length > 1 ? splitName[1] : "";
 
         nameData.setName((firstNameInput.getValue().equals("") ? splitName[0] : firstNameInput.getValue()) + " " + lastName);
+        PacketHandler.CTOS.sendToServer(new ClientNameMessage(nameData));
 
         Button nameButton = new Button(width / 2 - 50, height - 28,
                 100, 20, new StringTextComponent("Reroll Last Name"), (a) -> setRandomName(a));
@@ -80,6 +84,7 @@ public class StuffScreen extends Screen
         nameData.setName(nameData.getName().split(" ")[0] + " " + getRandomName());
 
         minecraft.player.experienceLevel -= 5;
+        PacketHandler.CTOS.sendToServer(new ClientNameMessage(nameData));
     }
 
     String getRandomName()

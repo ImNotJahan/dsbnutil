@@ -11,7 +11,7 @@ public class NameProvider implements ICapabilitySerializable<INBT>
 {
     @CapabilityInject(INameData.class)
     public static final Capability<INameData> STATUS_CAP = null;
-    private static final LazyOptional<INameData> lazyStatus = LazyOptional.of(NameData::new);
+    private final LazyOptional<INameData> lazyStatus = LazyOptional.of(NameData::new);
 
     private INameData instance = STATUS_CAP.getDefaultInstance();
 
@@ -24,12 +24,12 @@ public class NameProvider implements ICapabilitySerializable<INBT>
     @Override
     public INBT serializeNBT()
     {
-        return STATUS_CAP.getStorage().writeNBT(STATUS_CAP, this.instance, NameData.capSide);
+        return STATUS_CAP.getStorage().writeNBT(STATUS_CAP, this.lazyStatus.orElseThrow(ArithmeticException::new), NameData.capSide);
     }
 
     @Override
     public void deserializeNBT(INBT nbt)
     {
-        STATUS_CAP.getStorage().readNBT(STATUS_CAP, this.instance, NameData.capSide, nbt);
+        STATUS_CAP.getStorage().readNBT(STATUS_CAP, this.lazyStatus.orElseThrow(ArithmeticException::new), NameData.capSide, nbt);
     }
 }

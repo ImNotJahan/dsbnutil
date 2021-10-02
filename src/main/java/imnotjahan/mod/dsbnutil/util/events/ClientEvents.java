@@ -15,11 +15,14 @@ public class ClientEvents
             "key.categories.dsbn");
     public static final KeyBinding SWORDS = new KeyBinding("key.swords", GLFW.GLFW_KEY_P,
             "key.categories.dsbn");
+    public static final KeyBinding TRANSPARENT_WORLD = new KeyBinding("key.transparent_world", GLFW.GLFW_KEY_O,
+            "key.categories.dsbn");
 
     static
     {
         ClientRegistry.registerKeyBinding(NAME);
         ClientRegistry.registerKeyBinding(SWORDS);
+        ClientRegistry.registerKeyBinding(TRANSPARENT_WORLD);
     }
 
     public static Minecraft GetMinecraft()

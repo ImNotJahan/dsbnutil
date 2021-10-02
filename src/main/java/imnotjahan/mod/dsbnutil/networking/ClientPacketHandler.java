@@ -23,6 +23,8 @@ public class ClientPacketHandler // Only call on the client
             ClientPlayerEntity sender = Minecraft.getInstance().player;
             sender.getCapability(NameProvider.STATUS_CAP, NameData.capSide).orElseThrow(ArithmeticException::new)
                     .setName(msg.data.getName());
+            sender.getCapability(NameProvider.STATUS_CAP, NameData.capSide).orElseThrow(ArithmeticException::new)
+                    .getUnlocked().forEach(sword -> msg.data.unlock(sword));
         });
         ctx.get().setPacketHandled(true);
     }

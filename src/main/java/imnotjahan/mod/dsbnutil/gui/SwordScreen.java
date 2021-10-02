@@ -2,12 +2,18 @@ package imnotjahan.mod.dsbnutil.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import imnotjahan.mod.dsbnutil.capabilities.name.INameData;
+import imnotjahan.mod.dsbnutil.capabilities.name.NameData;
 import imnotjahan.mod.dsbnutil.capabilities.name.NameProvider;
+import imnotjahan.mod.dsbnutil.networking.PacketHandler;
+import imnotjahan.mod.dsbnutil.networking.message.ClientNameMessage;
+import imnotjahan.mod.dsbnutil.networking.message.NameMessage;
 import imnotjahan.mod.dsbnutil.util.events.ClientEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.fml.network.PacketDistributor;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
@@ -58,34 +64,32 @@ public class SwordScreen extends Screen
         add("kimetsunoyaiba:nichirinsword_uzui");
         add("kimetsunoyaiba:nichirinsword_rengoku");
         add("kimetsunoyaiba:nichirinsword_tomioka");
-        add("kimetsunoyaiba:nichirinsword_himejima_2");
-        add("kimetsunoyaiba:nichirinsword_himejima_1");
         add("kimetsunoyaiba:nichirinsword_kocho");
         add("kimetsunoyaiba:nichirinsword_bamboo_2");
     }};
 
     final List<String> arts = new ArrayList<String>()
     {{
-        add("kimetsunoyaiba:bhlooddemonart_nezuko");
-        add("kimetsunoyaiba:bhlooddemonart_yahaba");
+        add("kimetsunoyaiba:blooddemonart_nezuko");
+        add("kimetsunoyaiba:blooddemonart_yahaba");
         add("kimetsunoyaiba:kemari");
         add("kimetsunoyaiba:drum");
-        add("kimetsunoyaiba:bhlooddemonart_kamanue");
-        add("kimetsunoyaiba:bhlooddemonart_rui");
-        add("kimetsunoyaiba:bhlooddemonart_rui_sister");
+        add("kimetsunoyaiba:blooddemonart_kamanue");
+        add("kimetsunoyaiba:blooddemonart_rui");
+        add("kimetsunoyaiba:blooddemonart_rui_sister");
         add("kimetsunoyaiba:rifle");
         add("kimetsunoyaiba:minigun");
         add("kimetsunoyaiba:sword_hairo");
-        add("kimetsunoyaiba:bhlooddemonart_enmu");
+        add("kimetsunoyaiba:blooddemonart_enmu");
         add("kimetsunoyaiba:chigama");
-        add("kimetsunoyaiba:bhlooddemonart_gyokko");
+        add("kimetsunoyaiba:blooddemonart_gyokko");
         add("kimetsunoyaiba:khakkhara");
         add("kimetsunoyaiba:spear");
         add("kimetsunoyaiba:urogi_hand");
         add("kimetsunoyaiba:tengu_handfan");
-        add("kimetsunoyaiba:bhlooddemonart_zohakuten");
-        add("kimetsunoyaiba:bhlooddemonart_nakime");
-        add("kimetsunoyaiba:bhlooddemonart_akaza");
+        add("kimetsunoyaiba:blooddemonart_zohakuten");
+        add("kimetsunoyaiba:blooddemonart_nakime");
+        add("kimetsunoyaiba:blooddemonart_akaza");
         add("kimetsunoyaiba:handfan");
     }};
 
@@ -146,6 +150,7 @@ public class SwordScreen extends Screen
                 {
                     mc.player.experienceLevel -= 30;
                     cap.unlock(menuButton);
+                    PacketHandler.CTOS.sendToServer(new ClientNameMessage(cap));
                 });
                 button.active = mc.player.experienceLevel >= 30;
 

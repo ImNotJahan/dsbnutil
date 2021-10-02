@@ -5,15 +5,9 @@ import imnotjahan.mod.dsbnutil.capabilities.name.NameProvider;
 import imnotjahan.mod.dsbnutil.gui.StuffScreen;
 import imnotjahan.mod.dsbnutil.gui.SwordScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.CreativeScreen;
-import net.minecraft.item.SwordItem;
-import net.minecraft.potion.Effects;
-import net.minecraft.potion.HealthBoostEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -63,28 +57,30 @@ public class ForgeClientEvents
         add("kimetsunoyaiba:nichirinsword_bamboo_2");
 
         // demon arts
-        add("kimetsunoyaiba:bhlooddemonart_nezuko");
-        add("kimetsunoyaiba:bhlooddemonart_yahaba");
+        add("kimetsunoyaiba:blooddemonart_nezuko");
+        add("kimetsunoyaiba:blooddemonart_yahaba");
         add("kimetsunoyaiba:kemari");
         add("kimetsunoyaiba:drum");
-        add("kimetsunoyaiba:bhlooddemonart_kamanue");
-        add("kimetsunoyaiba:bhlooddemonart_rui");
-        add("kimetsunoyaiba:bhlooddemonart_rui_sister");
+        add("kimetsunoyaiba:blooddemonart_kamanue");
+        add("kimetsunoyaiba:blooddemonart_rui");
+        add("kimetsunoyaiba:blooddemonart_rui_sister");
         add("kimetsunoyaiba:rifle");
         add("kimetsunoyaiba:minigun");
         add("kimetsunoyaiba:sword_hairo");
-        add("kimetsunoyaiba:bhlooddemonart_enmu");
+        add("kimetsunoyaiba:blooddemonart_enmu");
         add("kimetsunoyaiba:chigama");
-        add("kimetsunoyaiba:bhlooddemonart_gyokko");
+        add("kimetsunoyaiba:blooddemonart_gyokko");
         add("kimetsunoyaiba:khakkhara");
         add("kimetsunoyaiba:spear");
         add("kimetsunoyaiba:urogi_hand");
         add("kimetsunoyaiba:tengu_handfan");
-        add("kimetsunoyaiba:bhlooddemonart_zohakuten");
-        add("kimetsunoyaiba:bhlooddemonart_nakime");
-        add("kimetsunoyaiba:bhlooddemonart_akaza");
+        add("kimetsunoyaiba:blooddemonart_zohakuten");
+        add("kimetsunoyaiba:blooddemonart_nakime");
+        add("kimetsunoyaiba:blooddemonart_akaza");
         add("kimetsunoyaiba:handfan");
     }};
+
+    public static boolean transparentWorld = false;
 
     @SubscribeEvent
     public static void onClientTickEvent(TickEvent.ClientTickEvent event)
@@ -93,6 +89,8 @@ public class ForgeClientEvents
         {
             if(ClientEvents.NAME.isDown()) Minecraft.getInstance().setScreen(new StuffScreen());
             if(ClientEvents.SWORDS.isDown()) Minecraft.getInstance().setScreen(new SwordScreen());
+            if(ClientEvents.TRANSPARENT_WORLD.isDown() &&
+                    Minecraft.getInstance().player.hasPermissions(2)) transparentWorld = !transparentWorld;
         }
     }
 
