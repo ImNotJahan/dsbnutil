@@ -19,7 +19,7 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ForgeClientEvents
 {
-    private static final List<String> swords = new ArrayList<String>()
+    public static final List<String> swords = new ArrayList<String>()
     {{
         // nichirin swords
         add("kimetsunoyaiba:nichirinsword_kanawo");
@@ -98,8 +98,6 @@ public class ForgeClientEvents
     public static void stopSwordUse(PlayerInteractEvent.RightClickItem event)
     {
         ResourceLocation registryName = event.getItemStack().getItem().getRegistryName();
-
-        System.out.println(registryName.toString());
 
         if(swords.contains(registryName.toString()))
         {

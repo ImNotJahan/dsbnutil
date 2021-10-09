@@ -8,8 +8,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class NameMessage
 {
@@ -27,21 +30,33 @@ public class NameMessage
 
     public static void encode(NameMessage message, PacketBuffer buffer)
     {
-        buffer.writeUtf(message.data.getName());
+        buffer.writeUtf(message.data.getName().isEmpty() ? "Filler Name" : message.data.getName());
 
-        List<String> swords = message.data.getUnlocked();
-        buffer.writeInt(swords.size());
+        List<Integer> swords = message.data.getUnlockedy();
+        Integer[] array = swords.stream().toArray(Integer[]::new);
+        int[] arr = new int[array.length];
 
-        swords.forEach(buffer::writeUtf);
+        for(int k = 0; k < arr.length; k++)
+        {
+            arr[k] = array[k];
+        }
+
+        buffer.writeVarIntArray(arr);
     }
 
     public static NameMessage decode(PacketBuffer buffer)
     {
         INameData data = new NameData();
         data.setName(buffer.readUtf());
+        int[] buf = buffer.readVarIntArray();
+        List<Integer> fuckyou = new ArrayList<>();
 
-        for(int k = 0; k < buffer.readInt(); k++) data.unlock(buffer.readUtf());
+        for(int k = 0; k < buf.length; k++)
+        {
+            fuckyou.add(buf[k]);
+        }
 
+        data.setUnlockedy(fuckyou);
         return new NameMessage(data);
     }
 

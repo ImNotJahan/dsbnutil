@@ -110,6 +110,7 @@ public class SwordScreen extends Screen
     @Override
     public void render(MatrixStack stack, int p_230430_2_, int p_230430_3_, float p_230430_4_)
     {
+        cap = mc.player.getCapability(NameProvider.STATUS_CAP).orElseThrow(ArithmeticException::new);
         if(cap == null) return;
         if(mc.player == null) return;
 
@@ -148,9 +149,14 @@ public class SwordScreen extends Screen
                         150, 20,
                         new StringTextComponent(prettyName), a ->
                 {
-                    mc.player.experienceLevel -= 30;
-                    cap.unlock(menuButton);
-                    PacketHandler.CTOS.sendToServer(new ClientNameMessage(cap));
+                    if(mc.player.experienceLevel >= 30)
+                    {
+                        mc.player.experienceLevel -= 30;
+                        cap.unlock(menuButton);
+                        cap.refreshing();
+                        PacketHandler.CTOS.sendToServer(new ClientNameMessage(cap));
+                        cap.stopre();
+                    }
                 });
                 button.active = mc.player.experienceLevel >= 30;
 
