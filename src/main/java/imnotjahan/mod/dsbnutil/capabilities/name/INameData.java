@@ -18,5 +18,6 @@ public interface INameData
     void setUnlockedy(List<Integer> swords);
 
     boolean refreshing();
+    void makeRefreshing();
     boolean stopre();
 }

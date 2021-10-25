@@ -3,20 +3,16 @@ package imnotjahan.mod.dsbnutil.networking.message;
 import imnotjahan.mod.dsbnutil.capabilities.name.INameData;
 import imnotjahan.mod.dsbnutil.capabilities.name.NameData;
 import imnotjahan.mod.dsbnutil.capabilities.name.NameProvider;
-import imnotjahan.mod.dsbnutil.networking.ClientPacketHandler;
 import imnotjahan.mod.dsbnutil.networking.PacketHandler;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class ClientNameMessage
 {
@@ -78,7 +74,7 @@ public class ClientNameMessage
 
         data.setUnlockedy(fuckyou);
 
-        if(buffer.readBoolean()) data.refreshing();
+        if(buffer.readBoolean()) data.makeRefreshing();
 
         return new ClientNameMessage(data);
     }
@@ -99,7 +95,14 @@ public class ClientNameMessage
                 INameData status = sender.getCapability(NameProvider.STATUS_CAP, NameData.capSide)
                         .orElseThrow(ArithmeticException::new);
 
+                if(status.getName().split(" ").length > 0 && msg.data.getName().split(" ").length > 0 &&
+                        !Objects.equals(status.getName().split(" ")[1], msg.data.getName().split(" ")[1]))
+                {
+                    sender.setExperienceLevels(sender.experienceLevel -5);
+                }
+
                 status.setName(msg.data.getName());
+
                 status.setUnlocked(msg.data.getUnlocked());
 
                 if (msg.data.refreshing())

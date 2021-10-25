@@ -40,6 +40,6 @@ public class NameStorage implements Capability.IStorage<INameData>
             instance.unlock(tag.getString("sword" + k));
         }
 
-        if(tag.getBoolean("refreshing")) instance.refreshing();
+        if(tag.getBoolean("refreshing")) instance.makeRefreshing();
     }
 }

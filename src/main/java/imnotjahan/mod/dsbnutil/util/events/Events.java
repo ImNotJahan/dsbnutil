@@ -12,10 +12,13 @@ import imnotjahan.mod.dsbnutil.networking.message.WorldMessage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.GameType;
 import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -114,6 +117,14 @@ public class Events
 
             data.addDeathData(event.getEntity().getDisplayName().getString() + " left during a pd event at " +
                     formatter.format(date));
+        }
+    }
+
+    void saa(TickEvent.PlayerTickEvent e)
+    {
+        if(e.player.getHealth() < 7)
+        {
+            e.player.addEffect(new EffectInstance(Effects.DOLPHINS_GRACE, 1));
         }
     }
 }

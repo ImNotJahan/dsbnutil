@@ -53,7 +53,6 @@ public class SwordScreen extends Screen
         add("kimetsunoyaiba:nichirinsword_inosuke");
         add("kimetsunoyaiba:nichirinsword_senior");
         add("kimetsunoyaiba:nichirinsword_shinazugawa");
-        add("kimetsunoyaiba:nichirinsword_senior_2");
         add("kimetsunoyaiba:nichirinsword_zenitsu");
         add("kimetsunoyaiba:nichirinsword_kanroji");
         add("kimetsunoyaiba:nichirinsword_flame");
@@ -65,7 +64,8 @@ public class SwordScreen extends Screen
         add("kimetsunoyaiba:nichirinsword_rengoku");
         add("kimetsunoyaiba:nichirinsword_tomioka");
         add("kimetsunoyaiba:nichirinsword_kocho");
-        add("kimetsunoyaiba:nichirinsword_bamboo_2");
+        add("kimetsunoyaiba:sword_kokushibo_1");
+        add("kimetsunoyaiba:sword_kokushibo_2");
     }};
 
     final List<String> arts = new ArrayList<String>()

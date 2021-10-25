@@ -69,7 +69,14 @@ public class StuffScreen extends Screen
         PacketHandler.CTOS.sendToServer(new ClientNameMessage(nameData));
 
         Button nameButton = new Button(width / 2 - 50, height - 28,
-                100, 20, new StringTextComponent("Reroll Last Name"), (a) -> setRandomName(a));
+                100, 20, new StringTextComponent("Reroll Last Name"), (a) ->
+        {
+            if(minecraft.player.experienceLevel >= 5)
+            {
+                setRandomName(a);
+                minecraft.player.experienceLevel -= 5;
+            }
+        });
 
         nameButton.active = minecraft.player.experienceLevel >= 5;
 
@@ -83,7 +90,6 @@ public class StuffScreen extends Screen
     {
         nameData.setName(nameData.getName().split(" ")[0] + " " + getRandomName());
 
-        minecraft.player.experienceLevel -= 5;
         PacketHandler.CTOS.sendToServer(new ClientNameMessage(nameData));
     }
 

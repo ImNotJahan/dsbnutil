@@ -30,12 +30,10 @@ public class AddSword
                 .orElseThrow(ArithmeticException::new);
 
         data.unlock(name);
-
+        System.out.println(name);
         source.sendSuccess(new StringTextComponent("Granted you the sword " + name), false);
 
         PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) source.getEntity()), new NameMessage(data));
-
-
         return 0;
     }
 }
