@@ -24,13 +24,12 @@ public class AddSword
                         CommandStuff(command.getSource(), command.getArgument("sword", String.class)))));
     }
 
-    private int CommandStuff(CommandSource source, String name) throws CommandSyntaxException
+    private int CommandStuff(CommandSource source, String name)
     {
         INameData data = source.getEntity().getCapability(NameProvider.STATUS_CAP, NameData.capSide)
                 .orElseThrow(ArithmeticException::new);
 
         data.unlock(name);
-        System.out.println(name);
         source.sendSuccess(new StringTextComponent("Granted you the sword " + name), false);
 
         PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) source.getEntity()), new NameMessage(data));

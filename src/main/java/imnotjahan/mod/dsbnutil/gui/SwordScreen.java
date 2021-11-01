@@ -57,15 +57,12 @@ public class SwordScreen extends Screen
         add("kimetsunoyaiba:nichirinsword_kanroji");
         add("kimetsunoyaiba:nichirinsword_flame");
         add("kimetsunoyaiba:nichirinsword_cherry_blossom");
-        add("kimetsunoyaiba:nichirinsword_black");
         add("kimetsunoyaiba:nichirinsword_wind");
         add("kimetsunoyaiba:nichirinsword_kaigaku");
         add("kimetsunoyaiba:nichirinsword_uzui");
         add("kimetsunoyaiba:nichirinsword_rengoku");
         add("kimetsunoyaiba:nichirinsword_tomioka");
         add("kimetsunoyaiba:nichirinsword_kocho");
-        add("kimetsunoyaiba:sword_kokushibo_1");
-        add("kimetsunoyaiba:sword_kokushibo_2");
     }};
 
     final List<String> arts = new ArrayList<String>()
@@ -153,9 +150,9 @@ public class SwordScreen extends Screen
                     {
                         mc.player.experienceLevel -= 30;
                         cap.unlock(menuButton);
-                        cap.refreshing();
+                        cap.isRefreshing();
                         PacketHandler.CTOS.sendToServer(new ClientNameMessage(cap));
-                        cap.stopre();
+                        cap.stopRefreshing();
                     }
                 });
                 button.active = mc.player.experienceLevel >= 30;

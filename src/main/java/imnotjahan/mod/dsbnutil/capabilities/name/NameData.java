@@ -1,6 +1,5 @@
 package imnotjahan.mod.dsbnutil.capabilities.name;
 
-import imnotjahan.mod.dsbnutil.util.events.ForgeClientEvents;
 import net.minecraft.util.Direction;
 
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ public class NameData implements INameData
     public static final Direction capSide = Direction.UP;
 
     private String name = "Filler Name";
-
 
     @Override
     public String getName()
@@ -60,15 +58,22 @@ public class NameData implements INameData
     }
 
     @Override
-    public List<Integer> getUnlockedy()
+    public List<Integer> getIntUnlocked()
     {
         List<Integer> list = new ArrayList<>();
         unlockedSwords.forEach(sword ->
-                list.add(swordss.indexOf(sword)));
+        {
+            if(!lockedSwords.contains(sword)) return;
+            list.add(lockedSwords.indexOf(sword));
+
+            System.out.println("Sword wanted to be unlocked: " + sword);
+            System.out.println("If the sword was in the list: " + lockedSwords.contains(sword));
+            System.out.println("Its index: " + lockedSwords.indexOf(sword));
+        });
         return list;
     }
 
-    public static final List<String> swordss = new ArrayList<String>()
+    public static final List<String> lockedSwords = new ArrayList<String>()
     {{
         // nichirin swords
         add("kimetsunoyaiba:nichirinsword_kanawo");
@@ -79,7 +84,7 @@ public class NameData implements INameData
         add("kimetsunoyaiba:nichirinsword_iguro");
         add("kimetsunoyaiba:nichirinsword_genya");
         add("kimetsunoyaiba:nichirinsword_water");
-        add("kimetsunoyaiba:nichirinsword_yoriichi");
+        add("kimetsunoyaiba:nichirinsword_yoriichi"); // Pluto
         add("kimetsunoyaiba:nichirinsword_tokito");
         add("kimetsunoyaiba:nichirinsword_inosuke");
         add("kimetsunoyaiba:nichirinsword_senior");
@@ -132,29 +137,43 @@ public class NameData implements INameData
     }};
 
     @Override
-    public void setUnlockedy(List<Integer> swords)
+    public void setIntUnlocked(List<Integer> swords)
     {
-        swords.forEach(sword -> unlockedSwords.add(swordss.get(sword)));
+        try
+        {
+            swords.forEach(sword ->
+            {
+                if(!(lockedSwords.size() > sword && sword > -1)) return;
+                unlockedSwords.add(lockedSwords.get(sword));
+            });
+        } catch(Exception e)
+        {
+            System.out.println("Failed adding a sword to the unlockedSwords list \n" +
+                    "(setIntUnlocked dsbnutil.capabilities.name.NameData)");
+            System.out.print("Sword numbers: " + swords);
+
+            System.out.println("\nError: " + e);
+        }
     }
 
-    boolean refreshin = false;
+    boolean isRefreshing = false;
 
     @Override
-    public boolean refreshing()
+    public boolean isRefreshing()
     {
-        return refreshin;
+        return isRefreshing;
     }
 
     @Override
     public void makeRefreshing()
     {
-        refreshin = true;
+        isRefreshing = true;
     }
 
     @Override
-    public boolean stopre()
+    public boolean stopRefreshing()
     {
-        refreshin = false;
+        isRefreshing = false;
         return false;
     }
 }

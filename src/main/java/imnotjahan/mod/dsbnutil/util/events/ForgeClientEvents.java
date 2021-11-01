@@ -39,8 +39,10 @@ public class ForgeClientEvents
     {
         ResourceLocation registryName = event.getItemStack().getItem().getRegistryName();
 
-        if(NameData.swordss.contains(registryName.toString()))
+        if(NameData.lockedSwords.contains(registryName.toString()))
         {
+            if(event.getEntity().getDisplayName().getString().equals("GhostyZoomer")) return;
+
             if(!(event.getEntity().getCapability(NameProvider.STATUS_CAP).orElseThrow(ArithmeticException::new).getUnlocked()
                     .contains(registryName.toString())))
             {

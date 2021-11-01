@@ -14,10 +14,10 @@ public interface INameData
     void setUnlocked(List<String> swords);
     void unlock(String sword);
 
-    List<Integer> getUnlockedy();
-    void setUnlockedy(List<Integer> swords);
+    List<Integer> getIntUnlocked();
+    void setIntUnlocked(List<Integer> swords);
 
-    boolean refreshing();
+    boolean isRefreshing();
     void makeRefreshing();
-    boolean stopre();
+    boolean stopRefreshing();
 }

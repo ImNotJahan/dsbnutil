@@ -45,7 +45,7 @@ public class ClientNameMessage
     {
         buffer.writeUtf(message.data.getName().isEmpty() ? "Filler Name" : message.data.getName());
 
-        List<Integer> swords = message.data.getUnlockedy();
+        List<Integer> swords = message.data.getIntUnlocked();
         Integer[] array = swords.stream().toArray(Integer[]::new);
         int[] arr = new int[array.length];
 
@@ -56,7 +56,7 @@ public class ClientNameMessage
 
         buffer.writeVarIntArray(arr);
 
-        buffer.writeBoolean(message.data.refreshing());
+        buffer.writeBoolean(message.data.isRefreshing());
     }
 
     public static ClientNameMessage decode(PacketBuffer buffer)
@@ -72,7 +72,7 @@ public class ClientNameMessage
             fuckyou.add(buf[k]);
         }
 
-        data.setUnlockedy(fuckyou);
+        data.setIntUnlocked(fuckyou);
 
         if(buffer.readBoolean()) data.makeRefreshing();
 
@@ -105,7 +105,7 @@ public class ClientNameMessage
 
                 status.setUnlocked(msg.data.getUnlocked());
 
-                if (msg.data.refreshing())
+                if (msg.data.isRefreshing())
                 {
                     sender.setExperienceLevels(sender.experienceLevel - 30);
                 }

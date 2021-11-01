@@ -32,7 +32,7 @@ public class NameMessage
     {
         buffer.writeUtf(message.data.getName().isEmpty() ? "Filler Name" : message.data.getName());
 
-        List<Integer> swords = message.data.getUnlockedy();
+        List<Integer> swords = message.data.getIntUnlocked();
         Integer[] array = swords.stream().toArray(Integer[]::new);
         int[] arr = new int[array.length];
 
@@ -56,7 +56,7 @@ public class NameMessage
             fuckyou.add(buf[k]);
         }
 
-        data.setUnlockedy(fuckyou);
+        data.setIntUnlocked(fuckyou);
         return new NameMessage(data);
     }
 
