@@ -143,7 +143,7 @@ public class NameData implements INameData
         {
             swords.forEach(sword ->
             {
-                if(!(lockedSwords.size() > sword && sword > -1)) return;
+                if(lockedSwords.size() < sword) return;
                 unlockedSwords.add(lockedSwords.get(sword));
             });
         } catch(Exception e)

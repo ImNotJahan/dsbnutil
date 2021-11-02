@@ -1,5 +1,6 @@
 package imnotjahan.mod.dsbnutil.networking;
 
+import imnotjahan.mod.dsbnutil.capabilities.name.INameData;
 import imnotjahan.mod.dsbnutil.capabilities.name.NameData;
 import imnotjahan.mod.dsbnutil.capabilities.name.NameProvider;
 import imnotjahan.mod.dsbnutil.capabilities.world.IWorldData;
@@ -21,10 +22,10 @@ public class ClientPacketHandler // Only call on the client
         ctx.get().enqueueWork(() ->
         {
             ClientPlayerEntity sender = Minecraft.getInstance().player;
-            sender.getCapability(NameProvider.STATUS_CAP, NameData.capSide).orElseThrow(ArithmeticException::new)
-                    .setName(msg.data.getName());
-            sender.getCapability(NameProvider.STATUS_CAP, NameData.capSide).orElseThrow(ArithmeticException::new)
-                    .getUnlocked().forEach(sword -> msg.data.unlock(sword));
+            INameData data = sender.getCapability(NameProvider.STATUS_CAP, NameData.capSide).orElseThrow(ArithmeticException::new);
+
+            data.setName(msg.data.getName());
+            msg.data.getIntUnlocked().forEach(sword -> data.unlock(NameData.lockedSwords.get(sword)));
         });
         ctx.get().setPacketHandled(true);
     }

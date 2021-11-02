@@ -21,6 +21,7 @@ public class ForgeEvents
         new SetName(event.getDispatcher());
         new Permadeath(event.getDispatcher());
         new AddSword(event.getDispatcher());
+        new RemoveSword(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }
