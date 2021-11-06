@@ -20,4 +20,8 @@ public interface INameData
     boolean isRefreshing();
     void makeRefreshing();
     boolean stopRefreshing();
+
+    int getSwordsBought();
+    void setSwordsBought(int amount);
+    void increaseSwordsBought();
 }

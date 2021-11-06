@@ -176,4 +176,22 @@ public class NameData implements INameData
         isRefreshing = false;
         return false;
     }
+
+    @Override
+    public int getSwordsBought()
+    {
+        return 0;
+    }
+
+    @Override
+    public void setSwordsBought(int amount)
+    {
+
+    }
+
+    @Override
+    public void increaseSwordsBought()
+    {
+
+    }
 }
